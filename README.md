@@ -64,7 +64,6 @@ $ yarn test
 You can also modify this command to only include, for example, a `tests/` folder. Edit the `test` script in `package.json`:
 
 ```json
-# package.json
 {
   "scripts": {
     "test": "jest tests/"
