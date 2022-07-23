@@ -1,3 +1,5 @@
+import { findLastIndexInArray } from './util';
+
 type CanvasDimensions = {
   width: number;
   height: number;
@@ -22,6 +24,10 @@ const defaultDrawSettings = {
   fontSize: 5,
   fontFamily: "'Screen Mono', 'Lucida Console', Monaco, monospace",
   defaultColor: [255, 255, 255, 255] as Color,
+  circle: {
+    lineSegmentIntervalsByRadius: [0, 20, 28],
+    lineSegmentIntervals: [8, 12, 16],
+  },
 };
 
 const asRGBAString = (color: Color) =>
@@ -67,9 +73,38 @@ export const screenApi = (options: ScreenApiOptions = {}) => {
 
   const drawLine = (x1: number, y1: number, x2: number, y2: number) => {
     ctx.beginPath();
-
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
+    ctx.stroke();
+    ctx.closePath();
+  };
+
+  const drawCircle = (x: number, y: number, r: number) => {
+    const { circle } = drawSettings;
+    const lineSegments =
+      circle.lineSegmentIntervals[
+        findLastIndexInArray(circle.lineSegmentIntervalsByRadius, (v) => r >= v)
+      ];
+
+    const pi2 = Math.PI * 2;
+    const stepAmount = pi2 / lineSegments;
+
+    ctx.beginPath();
+
+    for (let dist = 0; dist < pi2; dist += stepAmount) {
+      const x1 = r * Math.cos(dist) + x;
+      const y1 = r * Math.sin(dist) + y;
+      const x2 = r * Math.cos(dist + stepAmount) + x;
+      const y2 = r * Math.sin(dist + stepAmount) + y;
+
+      // Move to starting position:
+      if (dist === 0) {
+        ctx.moveTo(x1, y1);
+      }
+
+      ctx.lineTo(x2, y2);
+    }
+
     ctx.stroke();
     ctx.closePath();
   };
@@ -78,9 +113,15 @@ export const screenApi = (options: ScreenApiOptions = {}) => {
     ctx.clearRect(0, 0, canvasElm.width, canvasElm.height);
   };
 
+  const getWidth = () => canvasElm.width;
+  const getHeight = () => canvasElm.height;
+
   return {
+    getWidth,
+    getHeight,
     setColor,
     drawLine,
     drawClear,
+    drawCircle,
   };
 };
