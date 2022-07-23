@@ -1,8 +1,8 @@
-coverage
+/coverage
 .github
-src
+/src
 .eslintrc.js
 jest.config.js
-build/kitchen-sink
-kitchen-sink
+/build/kitchen-sink
+/kitchen-sink
 .parcel-cache
