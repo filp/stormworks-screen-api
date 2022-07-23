@@ -21,7 +21,7 @@ document.addEventListener(
       canvas,
     });
 
-    api.setColor(255, 0, 0, 255);
+    api.setColor(100, 100, 200, 255);
     api.drawLine(0, 0, 200, 200);
 
     window.S_API = api;

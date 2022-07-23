@@ -8,9 +8,17 @@ type CanvasDimensions = {
 // RGB or RGBA
 type Color = [number, number, number] | [number, number, number, number];
 
+// Line or fill types:
+type StrokeFill = 'stroke' | 'fill';
+
 type ScreenApiOptions = {
   canvas?: HTMLCanvasElement;
   dimensions?: CanvasDimensions;
+
+  reportDimensions?: {
+    width: number;
+    height: number;
+  };
 
   drawSettings?: Partial<typeof defaultDrawSettings>;
 
@@ -23,6 +31,10 @@ const defaultDrawSettings = {
   lineWidth: 1.4,
   fontSize: 5,
   fontFamily: "'Screen Mono', 'Lucida Console', Monaco, monospace",
+  fontCharDimensions: {
+    width: 4,
+    height: 5,
+  },
   defaultColor: [255, 255, 255, 255] as Color,
   circle: {
     lineSegmentIntervalsByRadius: [0, 20, 28],
@@ -43,7 +55,7 @@ const createCanvasElement = ({ width, height }: CanvasDimensions) => {
 };
 
 export const screenApi = (options: ScreenApiOptions = {}) => {
-  const { canvas, dimensions } = options;
+  const { canvas, dimensions, reportDimensions } = options;
   const drawSettings = {
     ...defaultDrawSettings,
     ...(options.drawSettings || {}),
@@ -64,22 +76,10 @@ export const screenApi = (options: ScreenApiOptions = {}) => {
     throw new Error('failed to get 2d context for canvas element');
   }
 
-  const setColor = (r: number, g: number, b: number, a: number) => {
-    const colorRGBA = asRGBAString([r, g, b, a]);
+  ctx.font = `${drawSettings.fontSize}px ${drawSettings.fontFamily}`;
+  ctx.lineWidth = drawSettings.lineWidth;
 
-    ctx.strokeStyle = colorRGBA;
-    ctx.fillStyle = colorRGBA;
-  };
-
-  const drawLine = (x1: number, y1: number, x2: number, y2: number) => {
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.stroke();
-    ctx.closePath();
-  };
-
-  const drawCircle = (x: number, y: number, r: number) => {
+  const circle = (x: number, y: number, r: number, circleType: StrokeFill) => {
     const { circle } = drawSettings;
     const lineSegments =
       circle.lineSegmentIntervals[
@@ -105,16 +105,62 @@ export const screenApi = (options: ScreenApiOptions = {}) => {
       ctx.lineTo(x2, y2);
     }
 
+    if (circleType === 'stroke') ctx.stroke();
+    else {
+      ctx.fill();
+    }
+
+    ctx.closePath();
+  };
+
+  const getWidth = () => reportDimensions?.width || canvasElm.width;
+  const getHeight = () => reportDimensions?.height || canvasElm.height;
+
+  const setColor = (r: number, g: number, b: number, a: number) => {
+    const colorRGBA = asRGBAString([r, g, b, a]);
+
+    ctx.strokeStyle = colorRGBA;
+    ctx.fillStyle = colorRGBA;
+  };
+
+  const drawLine = (x1: number, y1: number, x2: number, y2: number) => {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
     ctx.stroke();
     ctx.closePath();
   };
+
+  const drawCircle = (x: number, y: number, r: number) =>
+    circle(x, y, r, 'stroke');
+
+  const drawCircleF = (x: number, y: number, r: number) =>
+    circle(x, y, r, 'fill');
 
   const drawClear = () => {
     ctx.clearRect(0, 0, canvasElm.width, canvasElm.height);
   };
 
-  const getWidth = () => canvasElm.width;
-  const getHeight = () => canvasElm.height;
+  const drawRect = (x: number, y: number, width: number, height: number) =>
+    ctx.strokeRect(x, y, width, height);
+
+  const drawRectF = (x: number, y: number, width: number, height: number) =>
+    ctx.fillRect(x, y, width, height);
+
+  const drawText = (x: number, y: number, text: string) => {
+    text
+      .toUpperCase()
+      .split('\n')
+      .forEach((line, i) => {
+        ctx.fillText(
+          line,
+          x,
+          y +
+            i * (drawSettings.fontCharDimensions.height + 1) +
+            drawSettings.fontSize
+        );
+      });
+  };
 
   return {
     getWidth,
@@ -123,5 +169,9 @@ export const screenApi = (options: ScreenApiOptions = {}) => {
     drawLine,
     drawClear,
     drawCircle,
+    drawCircleF,
+    drawRect,
+    drawRectF,
+    drawText,
   };
 };
