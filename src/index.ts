@@ -1,4 +1,4 @@
-import { findLastIndexInArray } from './util';
+import { findLastIndexInArray, asRGBAString, type Color } from './util';
 
 // Canvas dimensions if allowing screenApi to create it
 type CanvasDimensions = {
@@ -17,9 +17,6 @@ enum TextVAlign {
   Center = 0,
   Bottom = 1,
 }
-
-// RGB or RGBA
-type Color = [number, number, number] | [number, number, number, number];
 
 // Line or fill types:
 type StrokeFill = 'stroke' | 'fill';
@@ -62,9 +59,6 @@ const defaultDrawSettings = {
     snow: [255, 255, 255, 255],
   },
 };
-
-const asRGBAString = (color: Color) =>
-  `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3]})`;
 
 const createCanvasElement = ({ width, height }: CanvasDimensions) => {
   const canvasElm = document.createElement('canvas');

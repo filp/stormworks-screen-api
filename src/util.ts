@@ -1,3 +1,6 @@
+// RGB or RGBA
+export type Color = [number, number, number] | [number, number, number, number];
+
 export const findLastIndexInArray = <T>(
   arr: T[],
   pred: (v: T, i: number, arr: T[]) => boolean | undefined
@@ -12,3 +15,6 @@ export const findLastIndexInArray = <T>(
 
   return -1;
 };
+
+export const asRGBAString = (color: Color) =>
+  `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3]})`;
