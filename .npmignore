@@ -4,3 +4,5 @@ src
 .eslintrc.js
 jest.config.js
 build/kitchen-sink
+kitchen-sink
+.parcel-cache
