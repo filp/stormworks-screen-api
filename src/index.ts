@@ -117,7 +117,7 @@ export const screenApi = (options: ScreenApiOptions = {}) => {
   const getHeight = () => reportDimensions?.height || canvasElm.height;
 
   const setColor = (r: number, g: number, b: number, a: number) => {
-    const colorRGBA = asRGBAString([r, g, b, a]);
+    const colorRGBA = asRGBAString([r, g, b, a / 255]);
 
     ctx.strokeStyle = colorRGBA;
     ctx.fillStyle = colorRGBA;
