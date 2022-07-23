@@ -25,7 +25,7 @@ const defaultDrawSettings = {
 };
 
 const asRGBAString = (color: Color) =>
-  `rgba(${(color[0], color[1], color[2], color[3])})`;
+  `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3]})`;
 
 const createCanvasElement = ({ width, height }: CanvasDimensions) => {
   const canvasElm = document.createElement('canvas');
@@ -36,7 +36,7 @@ const createCanvasElement = ({ width, height }: CanvasDimensions) => {
   return canvasElm;
 };
 
-export const screenApi = (options: ScreenApiOptions) => {
+export const screenApi = (options: ScreenApiOptions = {}) => {
   const { canvas, dimensions } = options;
   const drawSettings = {
     ...defaultDrawSettings,
