@@ -3,3 +3,4 @@ coverage
 src
 .eslintrc.js
 jest.config.js
+build/kitchen-sink

@@ -6,7 +6,7 @@
   "repository": "git@github.com:filp/ts-package-boilerplate",
   "author": "Filipe Dobreira",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "scripts": {
     "lint": "eslint .",
     "test": "jest .",
