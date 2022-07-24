@@ -65,6 +65,10 @@ This library aims to be as accurate as possible compared to the in-game implemen
 
 Note that currently `drawMap` and map-related methods are not fully implemented - calls to these methods will succeed without rendering anything to the canvas.
 
+### scaling
+
+This library doesn't offer any scaling/zoom support - you're expected to handle that part yourself (or through another package). If you're scaling directly in the browser (using CSS), expect blurryness at anything past 1x.
+
 ## Additional options:
 
 The `screenApi` method accepts a series of optional properties, which can be used to further configure how the API works, and how it renders elements onto the canvas.

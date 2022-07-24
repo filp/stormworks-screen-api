@@ -56,6 +56,29 @@ const defaultDrawSettings = {
   },
 };
 
+type DrawSettings = typeof defaultDrawSettings;
+
+// Naive 'deep merge' for drawSettings
+const extendDrawSettings = (ext: Partial<DrawSettings>) => ({
+  ...defaultDrawSettings,
+  ...ext,
+
+  circle: {
+    ...defaultDrawSettings.circle,
+    ...(ext.circle || {}),
+  },
+
+  fontCharDimensions: {
+    ...defaultDrawSettings.fontCharDimensions,
+    ...(ext.fontCharDimensions || {}),
+  },
+
+  map: {
+    ...defaultDrawSettings.map,
+    ...(ext.map || {}),
+  },
+});
+
 const createCanvasElement = ({ width, height }: CanvasDimensions) => {
   const canvasElm = document.createElement('canvas');
 
@@ -67,10 +90,7 @@ const createCanvasElement = ({ width, height }: CanvasDimensions) => {
 
 export const screenApi = (options: ScreenApiOptions = {}) => {
   const { canvas, dimensions, reportDimensions } = options;
-  const drawSettings = {
-    ...defaultDrawSettings,
-    ...(options.drawSettings || {}),
-  };
+  const drawSettings = extendDrawSettings(options.drawSettings || {});
 
   const mapColors = drawSettings.map;
 

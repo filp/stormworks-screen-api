@@ -27,8 +27,8 @@ document.addEventListener(
 
     // eslint-disable-next-line no-console
     console.info(
-      'screenApi object available at window.S',
-      'Try S.screen.drawText(1, 1, "Hello!")'
+      'screenApi object available at window.S!\n',
+      'Try: S.screen.drawText(1, 1, "Hello!")'
     );
 
     screen.setColor(100, 100, 200, 255);
