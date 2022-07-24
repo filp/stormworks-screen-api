@@ -1,6 +1,6 @@
 {
   "name": "stormworks-screen-api",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "JS implementation of the Stormworks screen API",
   "main": "build/src/index.js",
   "repository": "git@github.com:filp/ts-package-boilerplate",

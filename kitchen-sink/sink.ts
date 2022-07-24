@@ -2,7 +2,7 @@ import { screenApi } from '../src/index';
 
 declare global {
   interface Window {
-    S_API?: ReturnType<typeof screenApi>;
+    S?: ReturnType<typeof screenApi>;
   }
 }
 
@@ -21,13 +21,18 @@ document.addEventListener(
       canvas,
     });
 
-    api.setColor(100, 100, 200, 255);
-    api.drawLine(0, 0, 200, 200);
+    const { screen } = api;
 
-    window.S_API = api;
+    window.S = api;
 
     // eslint-disable-next-line no-console
-    console.info('API object available at window.S_API');
+    console.info(
+      'screenApi object available at window.S',
+      'Try S.screen.drawText(1, 1, "Hello!")'
+    );
+
+    screen.setColor(100, 100, 200, 255);
+    screen.drawLine(0, 0, 200, 200);
   },
   false
 );

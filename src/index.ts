@@ -31,10 +31,6 @@ type ScreenApiOptions = {
   };
 
   drawSettings?: Partial<typeof defaultDrawSettings>;
-
-  onDraw?: () => void;
-  onStartDraw?: () => void;
-  onFinishDraw?: () => void;
 };
 
 const defaultDrawSettings = {
@@ -269,25 +265,29 @@ export const screenApi = (options: ScreenApiOptions = {}) => {
   ) => triangle(x1, y1, x2, y2, x3, y3, 'fill');
 
   return {
-    getWidth,
-    getHeight,
-    setColor,
-    drawLine,
-    drawClear,
-    drawCircle,
-    drawCircleF,
-    drawRect,
-    drawRectF,
-    drawText,
-    drawTextBox,
-    drawTriangle,
-    drawTriangleF,
-    drawMap,
-    setMapColorGrass: mapColorSetter('grass'),
-    setMapColorLand: mapColorSetter('land'),
-    setMapColorOcean: mapColorSetter('ocean'),
-    setMapColorSand: mapColorSetter('sand'),
-    setMapColorShallows: mapColorSetter('shallows'),
-    setMapColorSnow: mapColorSetter('snow'),
+    getCanvasElement: () => canvasElm,
+    getCanvasContext: () => ctx,
+    screen: {
+      getWidth,
+      getHeight,
+      setColor,
+      drawLine,
+      drawClear,
+      drawCircle,
+      drawCircleF,
+      drawRect,
+      drawRectF,
+      drawText,
+      drawTextBox,
+      drawTriangle,
+      drawTriangleF,
+      drawMap,
+      setMapColorGrass: mapColorSetter('grass'),
+      setMapColorLand: mapColorSetter('land'),
+      setMapColorOcean: mapColorSetter('ocean'),
+      setMapColorSand: mapColorSetter('sand'),
+      setMapColorShallows: mapColorSetter('shallows'),
+      setMapColorSnow: mapColorSetter('snow'),
+    },
   };
 };
