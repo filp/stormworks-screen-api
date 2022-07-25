@@ -1,5 +1,7 @@
 # stormworks-screen-api
 
+[![npm version](https://badge.fury.io/js/stormworks-screen-api.svg)](https://badge.fury.io/js/stormworks-screen-api)
+
 Canvas-based JS/Typescript implementation of the [Stormworks](https://store.steampowered.com/app/573090/Stormworks_Build_and_Rescue/) LUA screen API.
 
 This library can be used to test and emulate controller designs outside of the game, as seen in [Stormdev](https://stormdev.vercel.app/).
